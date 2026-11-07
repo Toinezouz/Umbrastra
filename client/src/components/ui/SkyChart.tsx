@@ -23,6 +23,8 @@ function backgroundStars(count: number): { x: number; y: number; r: number }[] {
 const STARS = backgroundStars(70);
 /** Hour circles of right ascension: every 2 hours. */
 const MERIDIANS = Array.from({ length: 12 }, (_, i) => i * 30);
+/** The rim's graduation, like a planisphere's: a tick every 5 degrees. */
+const TICKS = Array.from({ length: 72 }, (_, i) => i * 5);
 const HOUR_LABELS = [
   { text: '0h', angle: 0 },
   { text: '6h', angle: 90 },
@@ -33,8 +35,9 @@ const HOUR_LABELS = [
 /**
  * Decorative sky chart drawn behind the title of the home screen, like a
  * planisphere: circles of declination, hour circles of right ascension, the
- * celestial pole at the centre and the five constellations of the game,
- * turning slowly with the sky. Purely ornamental, hidden from assistive
+ * celestial pole at the centre, a graduated rim and the five constellations
+ * of the game, whose lines are traced when the page opens, turning slowly
+ * with the sky. Purely ornamental, hidden from assistive
  * technologies.
  */
 export function SkyChart(): JSX.Element {
@@ -42,6 +45,18 @@ export function SkyChart(): JSX.Element {
     <div className="skychart" aria-hidden="true">
       <svg className="skychart__sky" viewBox="0 0 400 400" focusable="false">
         <circle cx="200" cy="200" r="196" className="skychart__line" />
+        <circle cx="200" cy="200" r="184" className="skychart__line skychart__line--rim" />
+        {TICKS.map((angle) => (
+          <line
+            key={`tick-${String(angle)}`}
+            x1="200"
+            y1="4"
+            x2="200"
+            y2={angle % 15 === 0 ? 16 : 10}
+            className={`skychart__tick ${angle % 15 === 0 ? 'skychart__tick--major' : ''}`.trim()}
+            transform={`rotate(${String(angle)} 200 200)`}
+          />
+        ))}
         {[150, 100, 50].map((r) => (
           <circle key={r} cx="200" cy="200" r={r} className="skychart__line skychart__line--soft" />
         ))}
@@ -67,8 +82,14 @@ export function SkyChart(): JSX.Element {
             {text}
           </text>
         ))}
-        {STARS.map(({ x, y, r }) => (
-          <circle key={`${x.toFixed(1)}-${y.toFixed(1)}`} cx={x} cy={y} r={r} className="skychart__star" />
+        {STARS.map(({ x, y, r }, index) => (
+          <circle
+            key={`${x.toFixed(1)}-${y.toFixed(1)}`}
+            cx={x}
+            cy={y}
+            r={r}
+            className={`skychart__star ${index % 6 === 0 ? 'skychart__star--twinkle' : ''}`.trim()}
+          />
         ))}
         {/* The celestial pole. */}
         <path d="M200 192 V208 M192 200 H208" className="skychart__pole" />
@@ -84,7 +105,7 @@ export function SkyChart(): JSX.Element {
               className="skychart__constellation"
               transform={`rotate(${String(angle + 18)} 200 200) translate(173 20) scale(2.25)`}
             >
-              <path d={figure.lines} className="skychart__figure" />
+              <path d={figure.lines} className="skychart__figure" pathLength={1} />
               {figure.stars.map(([x, y, r]) => (
                 <circle key={`${String(x)}-${String(y)}`} cx={x} cy={y} r={r * 0.8} />
               ))}

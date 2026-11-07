@@ -83,6 +83,15 @@ A visual change; no signature of `@umbrastra/shared` changes.
 | `Astrolabe` (home screen) | `SkyChart` | a star chart rather than an ornament |
 | fonts Cinzel + Jost | Space Grotesk + Jost | technical rather than engraved |
 
+### 1.7 — a living sky
+
+A visual change; no signature of `@umbrastra/shared` changes, no event, no
+translation key. New decorative components, hidden from assistive
+technologies: `SkyBackdrop` (the sky behind every screen) and `TileOptics`
+(the glass and diffraction spikes of a star, inside `Tile` and `TileBack`).
+The body's CSS starfield moves into `SkyBackdrop`; the new layer of light
+and motion lives in `client/src/styles/atmosphere.css`, loaded last.
+
 ## 1. Data types (`@umbrastra/shared`)
 
 ```ts
@@ -361,6 +370,8 @@ function Asterism(props: AsterismProps): JSX.Element;
 function SkyChart(): JSX.Element;
 function Celebration(props: CelebrationProps): JSX.Element;
 function useFreshIds(ids: readonly string[], durationMs?: number): ReadonlySet<string>;
+function SkyBackdrop(): JSX.Element;
+function TileOptics(): JSX.Element;
 function Icon(props: IconProps): JSX.Element;
 
 interface GameActions {

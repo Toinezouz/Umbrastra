@@ -8,6 +8,7 @@ import './styles/ui.css';
 import './styles/game.css';
 import './styles/deduction.css';
 import './styles/screens.css';
+import './styles/atmosphere.css';
 import { App } from './app/App.js';
 import { GameProvider } from './app/GameContext.js';
 import { ToastProvider } from './hooks/useToasts.js';

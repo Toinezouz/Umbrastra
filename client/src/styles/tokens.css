@@ -73,6 +73,26 @@
   /* Shadows are built on the ink in light mode, on black in dark mode. */
   --shadow-rgb: 16, 26, 51;
 
+  /* --- Instrument surfaces (panels, dialogs, banners) ---------------------
+     A surface is a pane of glass in a brass-free instrument: a gentle
+     vertical fill, a hairline edge that catches the light at the top left
+     and warms at the bottom right, a highlight along its top, and small
+     corner marks like the frame of an eyepiece reticle. */
+  --surface-fill: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(246, 248, 252, 0.95));
+  --surface-solid: linear-gradient(180deg, #ffffff, #f4f7fb);
+  --surface-edge: linear-gradient(
+    155deg,
+    rgba(37, 83, 184, 0.55),
+    rgba(37, 83, 184, 0.16) 32%,
+    rgba(37, 83, 184, 0.12) 68%,
+    rgba(154, 106, 0, 0.4)
+  );
+  --surface-sheen: inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  --frame-mark: rgba(37, 83, 184, 0.5);
+  /* Moving light: the sweep on buttons and the scan of the active rack. */
+  --sheen: rgba(255, 255, 255, 0.55);
+  --scan: rgba(240, 180, 41, 0.16);
+
   /* --- States ------------------------------------------------------------ */
   --c-success: #1f8a64;
   --c-danger: #b8443a;
@@ -159,6 +179,9 @@
   --mo-slow: 460ms;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-bounce: cubic-bezier(0.34, 1.4, 0.64, 1);
+  /* Slow, weightless: entrances and the sky's own drift. */
+  --ease-drift: cubic-bezier(0.16, 1, 0.3, 1);
+  --mo-enter: 900ms;
 
   /* --- Depth ------------------------------------------------------------- */
   --z-table: 1;
@@ -232,6 +255,20 @@
 
   /* A coloured shadow does not show on a dark background: black it is. */
   --shadow-rgb: 0, 0, 0;
+
+  --surface-fill: linear-gradient(180deg, rgba(18, 29, 56, 0.9), rgba(8, 14, 30, 0.9));
+  --surface-solid: linear-gradient(180deg, #111c38, #0a1124);
+  --surface-edge: linear-gradient(
+    155deg,
+    rgba(141, 184, 255, 0.55),
+    rgba(141, 184, 255, 0.13) 30%,
+    rgba(141, 184, 255, 0.07) 70%,
+    rgba(245, 196, 81, 0.38)
+  );
+  --surface-sheen: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --frame-mark: rgba(141, 184, 255, 0.5);
+  --sheen: rgba(255, 255, 255, 0.4);
+  --scan: rgba(255, 216, 115, 0.12);
 }
 
 :root[data-theme='light'] {

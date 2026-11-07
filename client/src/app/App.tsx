@@ -9,6 +9,7 @@ import { GameTable } from '../features/game/GameTable.js';
 import { StartRoulette } from '../features/game/StartRoulette.js';
 import { AboutDialog } from '../features/room/AboutDialog.js';
 import { SiteFooter } from '../components/ui/SiteFooter.js';
+import { SkyBackdrop } from '../components/ui/SkyBackdrop.js';
 import { loadPreferences, savePreferences } from '../lib/storage.js';
 import { clearInviteFromUrl } from '../lib/invite.js';
 import { setSoundEnabled } from '../lib/audio.js';
@@ -94,6 +95,8 @@ export function App({ inviteCode = null }: AppProps): JSX.Element {
 
   return (
     <div className="app-shell">
+      <SkyBackdrop />
+
       {status === 'offline' ? (
         <div className="offline-banner" role="status">
           {t('banner.offline')}

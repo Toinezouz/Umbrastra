@@ -164,7 +164,46 @@ The constellation figures carry the identity even without colour, which
 matters for colour-blind players.
 
 The home screen shows a **sky chart** turning slowly around the celestial
-pole: circles of declination, hour circles, and the five constellations.
+pole: circles of declination, hour circles, a graduated rim like a
+planisphere's, and the five constellations, whose lines are traced as the
+page opens.
+
+Every star also carries the **optics of the instrument**: a reflection on
+the eyepiece's glass, a sweep of light across it when it is hovered, and the
+four **diffraction spikes** a telescope draws around a bright star. They show
+on hover and on selection (in gold), flare now and then on a star of the open
+sky, and burst once, like a small nova, when a star is revealed. On my hidden
+stars the dashed ring turns slowly: a target still searched for.
+
+## Atmosphere
+
+The sky behind every screen is alive, slowly (`SkyBackdrop`):
+
+- three fields of stars at different depths drift at different speeds;
+- a faint nebula in the constellations' colours, with a band of Milky Way;
+- a few bright stars scintillate, with their diffraction spikes;
+- now and then, a meteor;
+- a fine film grain, so that no gradient bands.
+
+In the light theme the same layers become a printed chart: ink dots, a
+coordinate grid, no meteor.
+
+Surfaces are **instrument glass**: a hairline edge that catches the light at
+the top left and warms to gold at the bottom right, a highlight along the
+top, and the corner marks of a reticle. Panel titles open with a small
+four-pointed star. Light sweeps across buttons when they are hovered; the
+**CONSTELLATION!** button catches it by itself every few seconds and its
+glow breathes. The eclipse of the logo is alive too: its corona breathes and
+the bead of sunlight sparkles; on the home screen, the name catches the
+corona's light.
+
+Where the eye should go is lit: a band of light runs along the banner on my
+turn, a slow scan crosses the rack of the player in the lead, and a gold
+orbit turns around their initial. Screens rise into view; dialogs come into
+focus from a soft blur.
+
+All of it moves only `transform` and `opacity`, and stands still under the
+device's "reduce motion" setting: the sky is then a calm, complete picture.
 
 ## Moments
 
