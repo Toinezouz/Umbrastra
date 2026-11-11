@@ -68,9 +68,9 @@ test.describe('Light and dark themes', () => {
   test('the browser bar follows the theme too', async ({ browser }) => {
     const page = await openHome(browser, 'light');
     const meta = page.locator('meta[name="theme-color"]');
-    await expect(meta).toHaveAttribute('content', /#05080f/i);
+    await expect(meta).toHaveAttribute('content', /#0e121b/i);
     await page.getByTestId('theme-light').click();
-    await expect(meta).toHaveAttribute('content', /#eef2f8/i);
+    await expect(meta).toHaveAttribute('content', /#f3f2ee/i);
   });
 
   test('the theme can change mid-game without disturbing it', async ({ browser }) => {

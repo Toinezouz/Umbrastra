@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Star chart: an engraved grid, a felt pen, your own notes
+   Star chart: a plain grid, a felt pen, your own notes
    ========================================================================== */
 
 .sheet {
@@ -7,10 +7,7 @@
   flex-direction: column;
   gap: var(--sp-3);
   padding: var(--sp-4);
-  background:
-    repeating-linear-gradient(0deg, rgba(var(--rack-line-rgb), 0.05) 0 1px, transparent 1px 22px),
-    repeating-linear-gradient(90deg, rgba(var(--rack-line-rgb), 0.05) 0 1px, transparent 1px 22px),
-    var(--c-paper);
+  background: var(--c-paper);
   border-radius: var(--r-lg);
   border: 1px solid var(--c-rule);
   box-shadow: var(--sh-panel);
@@ -36,7 +33,7 @@
 .sheet__title {
   font-family: var(--font-title);
   font-size: var(--fs-xl);
-  color: var(--c-violet);
+  color: var(--c-ink);
   margin: 0;
 }
 
@@ -54,7 +51,6 @@
   padding: var(--sp-3);
   border-radius: var(--r-md);
   background: var(--c-wash);
-  border: 1px dashed var(--c-rule);
 }
 
 .sheet-guess__cells {
@@ -81,11 +77,9 @@
 }
 
 .sheet-guess__cell[data-color] {
-  border: none;
-  background:
-    radial-gradient(circle at 33% 27%, var(--tile-light) 0%, transparent 44%),
-    radial-gradient(circle at 50% 50%, var(--tile-face) 0%, var(--tile-edge) 80%);
-  box-shadow: inset 0 0 0 1.5px rgba(214, 228, 255, 0.6), 0 0 14px -5px var(--tile-face);
+  border: 2px solid var(--tile-face);
+  background: var(--sky-face);
+  background: color-mix(in srgb, var(--tile-face) 15%, var(--sky-face));
 }
 
 .sheet-guess__input {
@@ -95,14 +89,13 @@
   text-align: center;
   font-family: var(--font-title);
   font-size: clamp(1.05rem, 4.2vw, 1.6rem);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--c-ink);
   padding: 0;
 }
 
 .sheet-guess__cell[data-color] .sheet-guess__input {
-  color: #fff;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  color: var(--star-ink);
 }
 
 .sheet-guess__input:focus {
@@ -110,7 +103,7 @@
 }
 
 .sheet-guess__cell:focus-within {
-  outline: 2px solid var(--c-gold-bright);
+  outline: 2px solid var(--c-violet);
   outline-offset: 3px;
 }
 
@@ -133,7 +126,7 @@
 .sheet-guess__arrow-line {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, var(--c-line-soft), var(--c-violet));
+  background: var(--c-line);
   position: relative;
 }
 
@@ -144,8 +137,8 @@
   top: 50%;
   width: 6px;
   height: 6px;
-  border-top: 1px solid var(--c-violet);
-  border-right: 1px solid var(--c-violet);
+  border-top: 1px solid var(--c-ink-soft);
+  border-right: 1px solid var(--c-ink-soft);
   transform: translateY(-50%) rotate(45deg);
 }
 
@@ -226,20 +219,22 @@
   justify-content: center;
   gap: 2px;
   padding: 2px;
-  border: 1px solid rgba(214, 228, 255, 0.35);
+  border: none;
   border-radius: var(--r-sm);
-  background: linear-gradient(160deg, var(--tile-face), color-mix(in srgb, var(--tile-face) 72%, var(--tile-edge)));
+  /* A flat fill (written as a gradient so that both layers of colour stay
+     in `background-image`, where the tests read it). */
+  background: linear-gradient(var(--tile-face), var(--tile-face));
   color: var(--tile-ink, #fff);
   cursor: pointer;
-  box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.16);
   transition:
     transform var(--mo-fast) var(--ease-out),
+    opacity var(--mo-fast) var(--ease-out),
     filter var(--mo-fast) var(--ease-out);
 }
 
 .sheet-cell:hover {
-  transform: translateY(-2px) scale(1.04);
-  filter: brightness(1.1);
+  transform: translateY(-1px);
+  filter: brightness(1.06);
   z-index: 2;
 }
 
@@ -250,7 +245,7 @@
 .sheet-cell__number {
   font-family: var(--font-title);
   font-size: clamp(0.85rem, 2.4vw, 1.05rem);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
 }
 
@@ -301,7 +296,7 @@
 }
 
 .sheet-cell.is-crossed {
-  filter: saturate(0.35) brightness(0.9);
+  filter: saturate(0.3) brightness(0.85);
 }
 
 /* A felt-pen cross: thick, slightly uneven, a little see-through. */
@@ -311,7 +306,7 @@
   width: calc(100% + 4px);
   height: calc(100% + 4px);
   pointer-events: none;
-  animation: gf-pop-in 160ms var(--ease-bounce) both;
+  animation: gf-fade-in 140ms var(--ease-out) both;
 }
 
 .sheet-cell__stroke {

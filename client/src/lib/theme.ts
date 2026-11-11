@@ -27,8 +27,8 @@ export function otherTheme(theme: Theme): Theme {
 
 /** Colour of the browser bar (mobile), per theme: the page background. */
 export const THEME_COLORS: Record<Theme, string> = {
-  light: '#eef2f8',
-  dark: '#05080f',
+  light: '#f3f2ee',
+  dark: '#0e121b',
 };
 
 /**

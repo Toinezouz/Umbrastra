@@ -36,9 +36,8 @@ const HOUR_LABELS = [
  * Decorative sky chart drawn behind the title of the home screen, like a
  * planisphere: circles of declination, hour circles of right ascension, the
  * celestial pole at the centre, a graduated rim and the five constellations
- * of the game, whose lines are traced when the page opens, turning slowly
- * with the sky. Purely ornamental, hidden from assistive
- * technologies.
+ * of the game. A quiet, still watermark: purely ornamental, hidden from
+ * assistive technologies.
  */
 export function SkyChart(): JSX.Element {
   return (
@@ -82,13 +81,13 @@ export function SkyChart(): JSX.Element {
             {text}
           </text>
         ))}
-        {STARS.map(({ x, y, r }, index) => (
+        {STARS.map(({ x, y, r }) => (
           <circle
             key={`${x.toFixed(1)}-${y.toFixed(1)}`}
             cx={x}
             cy={y}
             r={r}
-            className={`skychart__star ${index % 6 === 0 ? 'skychart__star--twinkle' : ''}`.trim()}
+            className="skychart__star"
           />
         ))}
         {/* The celestial pole. */}
@@ -105,7 +104,7 @@ export function SkyChart(): JSX.Element {
               className="skychart__constellation"
               transform={`rotate(${String(angle + 18)} 200 200) translate(173 20) scale(2.25)`}
             >
-              <path d={figure.lines} className="skychart__figure" pathLength={1} />
+              <path d={figure.lines} className="skychart__figure" />
               {figure.stars.map(([x, y, r]) => (
                 <circle key={`${String(x)}-${String(y)}`} cx={x} cy={y} r={r * 0.8} />
               ))}

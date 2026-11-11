@@ -1,7 +1,6 @@
 import type { TileColor } from '@umbrastra/shared';
 import { useI18n } from '../../i18n/index.js';
 import { Asterism } from './Asterism.js';
-import { TileOptics } from './Tile.js';
 
 export interface TileBackProps {
   color: TileColor;
@@ -48,7 +47,6 @@ export function TileBack({
 
   const content = (
     <>
-      <TileOptics />
       <Asterism color={color} className="tile__asterism" size={size === 'lg' ? 22 : 15} />
       <span className="tile-back__mark" aria-hidden="true">
         ?

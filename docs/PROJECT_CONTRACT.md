@@ -83,14 +83,23 @@ A visual change; no signature of `@umbrastra/shared` changes.
 | `Astrolabe` (home screen) | `SkyChart` | a star chart rather than an ornament |
 | fonts Cinzel + Jost | Space Grotesk + Jost | technical rather than engraved |
 
-### 1.7 — a living sky
+### 1.7 — a living sky (withdrawn)
 
-A visual change; no signature of `@umbrastra/shared` changes, no event, no
-translation key. New decorative components, hidden from assistive
-technologies: `SkyBackdrop` (the sky behind every screen) and `TileOptics`
-(the glass and diffraction spikes of a star, inside `Tile` and `TileBack`).
-The body's CSS starfield moves into `SkyBackdrop`; the new layer of light
-and motion lives in `client/src/styles/atmosphere.css`, loaded last.
+A layer of constant motion and light effects (`atmosphere.css`,
+`TileOptics`). It was tiring to look at and was removed in 1.8.
+
+### 1.8 — a quiet observatory
+
+A complete visual redesign; no signature of `@umbrastra/shared` changes, no
+event, no translation key, no `data-testid`.
+
+| Before | After | Why |
+| --- | --- | --- |
+| `client/src/styles/atmosphere.css` | removed | no decorative loop any more |
+| `TileOptics` (glass, diffraction spikes) | removed | stars are flat |
+| `SkyBackdrop`: drifting fields, nebula, meteors | `SkyBackdrop`: a still sky | rest for the eyes |
+| page `#eef2f8` / `#05080f` | `#f3f2ee` / `#0e121b` (`THEME_COLORS`, `index.html`) | warm paper, soft night |
+| new tokens | `--c-gold-tint`, `--c-gold-wash`, `--c-accent-tint`, `--c-magenta-tint`, `--btn-primary-*`, `--star-ink` | flat tints instead of gradients |
 
 ## 1. Data types (`@umbrastra/shared`)
 
@@ -371,7 +380,6 @@ function SkyChart(): JSX.Element;
 function Celebration(props: CelebrationProps): JSX.Element;
 function useFreshIds(ids: readonly string[], durationMs?: number): ReadonlySet<string>;
 function SkyBackdrop(): JSX.Element;
-function TileOptics(): JSX.Element;
 function Icon(props: IconProps): JSX.Element;
 
 interface GameActions {

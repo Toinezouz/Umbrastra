@@ -44,10 +44,13 @@ observatory: stars seen through an eyepiece, real constellations, a star
 chart with its coordinate grid, a total eclipse for a logo. Nothing
 esoteric: no fate, no signs, no engraved brass, no invented symbols.
 
-- **Dark theme** (the default) — the sky itself: near-black, starlight blue,
-  a faint band of Milky Way, a sun-like yellow for highlights.
-- **Light theme** — a modern printed star chart: cool white paper, navy
-  lines, chart blue.
+- **Dark theme** (the default) — a soft night: slate blue, well above
+  black, with text in a soft white. Nothing glares.
+- **Light theme** — warm paper and dark ink.
+
+**One rule governs the look: only the stars are vivid.** The page, the
+panels, the text and the buttons stay neutral, flat and still, so the eye
+rests and the five constellation colours carry the game.
 
 ## Vocabulary
 
@@ -125,12 +128,16 @@ Both are self-hosted and released under the SIL Open Font License.
 
 | Role | Light | Dark |
 | --- | --- | --- |
-| Page | `#eef2f8` chart paper | `#05080f` night sky |
-| Panels | `#fbfcfe` | `#0c1428` |
-| Ink | `#101a33` navy | `#e6ebf5` |
-| Accent | `#2553b8` chart blue | `#8db8ff` starlight |
-| Second accent | `#b5304f` hydrogen red | `#ff8fa6` |
-| Highlight | `#9a6a00` (text) / `#f0b429` sun yellow | `#f5c451` |
+| Page | `#f3f2ee` warm paper | `#0e121b` soft night |
+| Panels | `#fcfbf8` | `#161c2a` |
+| Ink | `#1c2230` | `#e3e6ee` soft white |
+| Secondary ink | `#596277` | `#9aa4b8` |
+| Accent | `#2f55a8` ink blue | `#9db8f2` |
+| Second accent | `#a8405a` | `#e79ab0` |
+| Sunlight | `#8a6410` (text) / `#dcae45` (fill) | `#e6c170` / `#ecc878` |
+
+No gradient, no glow, no coloured shadow: surfaces are flat fills with a
+hairline border. Pure black and pure white are not used.
 
 The five constellations keep the same colours in both themes, so the star
 chart always matches the table:
@@ -148,74 +155,52 @@ ratios of the main text and accent pairs in both themes.
 
 ## The stars
 
-Each star is **a star seen through the eyepiece**:
+Each star is a **disc of night with a ring in its constellation's colour**:
 
-- face up — a disc of night sky lit by the constellation's colour, a thin
-  coloured field ring with four reticle marks, the constellation's figure at
-  the top, the number in Space Grotesk, and one to three round **sparks**
-  underneath, as in a star chart's brightness legend;
-- my own, hidden — **not observed yet**: a dark core inside a field of the
-  constellation's colour, a bright dashed ring and a coloured halo (so each
-  one is recognised at a glance), its figure, a question mark, and the
-  position in a small badge;
-- gauged with a NO — dimmed, inside a dashed halo.
+- face up — the constellation's figure at the top, the number in Space
+  Grotesk, and one to three round **sparks** underneath, as in a star
+  chart's brightness legend. Flat: no glow, no reflection;
+- my own, hidden — **not observed yet**: the disc is filled with the
+  constellation's colour (so each one is recognised at a glance), with a
+  dashed inner ring, its figure, a question mark, and the position in a
+  small badge;
+- gauged with a NO — dimmed, its ring dashed.
 
 The constellation figures carry the identity even without colour, which
 matters for colour-blind players.
 
-The home screen shows a **sky chart** turning slowly around the celestial
-pole: circles of declination, hour circles, a graduated rim like a
-planisphere's, and the five constellations, whose lines are traced as the
-page opens.
+The home screen shows a **sky chart** as a faint, still watermark: circles
+of declination, hour circles, a graduated rim like a planisphere's, and the
+five constellations.
 
-Every star also carries the **optics of the instrument**: a reflection on
-the eyepiece's glass, a sweep of light across it when it is hovered, and the
-four **diffraction spikes** a telescope draws around a bright star. They show
-on hover and on selection (in gold), flare now and then on a star of the open
-sky, and burst once, like a small nova, when a star is revealed. On my hidden
-stars the dashed ring turns slowly: a target still searched for.
+## Stillness
 
-## Atmosphere
+An earlier version (1.7) animated the whole sky and every surface; it was
+tiring to look at. The rule since 1.8:
 
-The sky behind every screen is alive, slowly (`SkyBackdrop`):
+- **Nothing loops for decoration.** The sky behind the screens is still: one
+  soft glow and a sparse field of faint stars. The only repeating movement
+  is the three waiting dots, which mean "someone is thinking".
+- **Movement answers an event, then stops**: a star appears, a star is
+  placed, a dialog opens, the game ends. Durations are short (120 to 360 ms,
+  the end screen aside).
+- **Attention is drawn by colour, not by motion**: sunlight yellow marks my
+  turn, the rack of the player in the lead and the gap a star was just
+  placed in.
 
-- three fields of stars at different depths drift at different speeds;
-- a faint nebula in the constellations' colours, with a band of Milky Way;
-- a few bright stars scintillate, with their diffraction spikes;
-- now and then, a meteor;
-- a fine film grain, so that no gradient bands.
-
-In the light theme the same layers become a printed chart: ink dots, a
-coordinate grid, no meteor.
-
-Surfaces are **instrument glass**: a hairline edge that catches the light at
-the top left and warms to gold at the bottom right, a highlight along the
-top, and the corner marks of a reticle. Panel titles open with a small
-four-pointed star. Light sweeps across buttons when they are hovered; the
-**CONSTELLATION!** button catches it by itself every few seconds and its
-glow breathes. The eclipse of the logo is alive too: its corona breathes and
-the bead of sunlight sparkles; on the home screen, the name catches the
-corona's light.
-
-Where the eye should go is lit: a band of light runs along the banner on my
-turn, a slow scan crosses the rack of the player in the lead, and a gold
-orbit turns around their initial. Screens rise into view; dialogs come into
-focus from a soft blur.
-
-All of it moves only `transform` and `opacity`, and stands still under the
-device's "reduce motion" setting: the sky is then a calm, complete picture.
+`tests/unit/design.dom.test.tsx` enforces the first point on the
+stylesheets.
 
 ## Moments
 
-- **A star is placed** — it lands in its gap from above, bright as it
-  arrives, with a shock wave of light around it, and the gap pulses in
-  sun-like yellow for a few seconds. Everyone at the table sees it, on
+- **A star is placed** — it settles into its gap from just above, and the
+  gap turns sunlight yellow for a few seconds, with two soft pulses. Everyone at the table sees it, on
   whichever row it happens. Only what happens while the page is open is
   animated: opening or reloading the page replays nothing.
 - **Someone wins** — the end screen opens on a total eclipse. The corona
-  grows, the diamond ring flashes over the whole sky, then the winner's five
-  stars light up one by one around the Moon and join into their
-  constellation under a shower of shooting stars, before
+  grows, the diamond ring appears in a soft wash of light, then the winner's
+  five stars light up one by one around the Moon and join into their
+  constellation while a few shooting stars cross the sky, before
   **CONSTELLATION!** appears and the results rise. When nobody wins, the
   eclipse stays alone: *the sky kept its secrets*.
 

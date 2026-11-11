@@ -21,18 +21,32 @@ body {
   line-height: 1.5;
   color: var(--c-ink);
   background-color: var(--c-cream);
-  /* The sky itself (stars, nebula, meteors) is drawn by SkyBackdrop, on
-     its own layers: see atmosphere.css. The page only keeps its base tone,
-     a slight vertical gradient. */
-  background-image: linear-gradient(180deg, #f3f6fb, var(--c-cream) 55%, #e8edf6);
-  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
 }
 
-:root[data-theme='dark'] body {
-  background-image: linear-gradient(180deg, #05080f, #08101f 60%, #05080f);
+/* The sky behind every screen (SkyBackdrop): one soft glow at the top and a
+   sparse field of faint stars. Nothing moves. */
+.sky {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 90% 60% at 50% -10%, var(--c-accent-tint), transparent 70%);
+}
+
+.sky__stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 18% 26%, var(--c-dot) 0 0.9px, transparent 1.5px),
+    radial-gradient(circle at 72% 64%, var(--c-dot-soft) 0 0.9px, transparent 1.5px),
+    radial-gradient(circle at 44% 88%, var(--c-dot-soft) 0 0.8px, transparent 1.4px);
+  background-size: 211px 197px, 157px 173px, 283px 251px;
+  /* Stars thin out towards the middle, where the content is. */
+  -webkit-mask-image: radial-gradient(ellipse at 50% 45%, rgba(0, 0, 0, 0.35), #000 75%);
+  mask-image: radial-gradient(ellipse at 50% 45%, rgba(0, 0, 0, 0.35), #000 75%);
 }
 
 h1,
@@ -41,9 +55,9 @@ h3,
 h4 {
   font-family: var(--font-title);
   font-weight: 600;
-  line-height: 1.12;
+  line-height: 1.15;
   margin: 0 0 var(--sp-3);
-  letter-spacing: -0.005em;
+  letter-spacing: -0.01em;
 }
 
 p {
@@ -64,13 +78,13 @@ textarea {
 }
 
 :focus-visible {
-  outline: 2px solid var(--c-gold-bright);
+  outline: 2px solid var(--c-violet);
   outline-offset: 3px;
   border-radius: var(--r-sm);
 }
 
 ::selection {
-  background: rgba(37, 83, 184, 0.35);
+  background: var(--c-gold-tint);
 }
 
 /* --- Utilities ------------------------------------------------------------ */
@@ -130,61 +144,61 @@ textarea {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.45em;
+  gap: 0.5em;
   margin: 0;
   font-family: var(--font-title);
   font-weight: 600;
   line-height: 1;
   color: var(--c-ink);
   text-transform: uppercase;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
 }
 
 .brand__glyph {
-  width: 1.5em;
-  height: 1.5em;
+  width: 1.45em;
+  height: 1.45em;
   flex: none;
 }
 
 .brand__sky {
-  fill: #0a1226;
+  fill: #121722;
 }
 
 .brand__stars {
-  fill: #e6ebf5;
-  opacity: 0.8;
+  fill: #e3e6ee;
+  opacity: 0.6;
 }
 
 /* The corona: two soft rings of pale light around the Moon. */
 .brand__corona {
   fill: none;
-  stroke: #f4f1e6;
+  stroke: #efe9d6;
 }
 
 .brand__corona--outer {
   stroke-width: 5;
-  opacity: 0.18;
+  opacity: 0.14;
 }
 
 .brand__corona--inner {
-  stroke-width: 2.4;
-  opacity: 0.85;
+  stroke-width: 2.2;
+  opacity: 0.8;
 }
 
 .brand__moon {
-  fill: #03050b;
+  fill: #080b12;
 }
 
 /* The last bead of sunlight on the Moon's edge. */
 .brand__bead {
-  fill: #fff7dc;
+  fill: #f6e7b8;
 }
 
 .brand__spikes {
-  stroke: #fff7dc;
+  stroke: #f6e7b8;
   stroke-width: 0.9;
   stroke-linecap: round;
-  opacity: 0.85;
+  opacity: 0.8;
 }
 
 .brand__word {
@@ -192,53 +206,62 @@ textarea {
 }
 
 .brand--xl {
-  font-size: calc(var(--fs-3xl) * 0.62);
+  font-size: calc(var(--fs-3xl) * 0.6);
+  font-weight: 500;
 }
 
 .brand--sm {
-  font-size: var(--fs-lg);
-  letter-spacing: 0.14em;
+  font-size: var(--fs-md);
+  letter-spacing: 0.16em;
 }
 
-/* --- Motion --------------------------------------------------------------- */
+/* --- Motion ---------------------------------------------------------------
+   Movement answers an event (something appears, something is placed, the
+   game ends) and then stops. Nothing on the page loops for decoration. */
 
 @keyframes gf-pop-in {
   from {
     opacity: 0;
-    transform: scale(0.9) translateY(8px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: none;
+  }
+}
+
+@keyframes gf-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
 @keyframes gf-slide-up {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
   }
 }
 
-/* A star appears: it lights up from a point, with a brief flare. */
+/* A star appears: it grows from a point. */
 @keyframes gf-flip-in {
   0% {
-    transform: scale(0.2);
+    transform: scale(0.4);
     opacity: 0;
-    filter: brightness(2.2);
   }
-  60% {
-    transform: scale(1.08);
+  70% {
+    transform: scale(1.06);
     opacity: 1;
-    filter: brightness(1.4);
   }
   100% {
     transform: scale(1);
-    filter: brightness(1);
   }
 }
 
@@ -262,49 +285,19 @@ textarea {
   }
 }
 
+/* The three waiting dots: the only loop, and it means "someone is thinking". */
 @keyframes gf-pulse {
   0%,
   100% {
-    transform: scale(1);
+    opacity: 0.35;
   }
   50% {
-    transform: scale(1.04);
-  }
-}
-
-@keyframes gf-rays {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes gf-twinkle {
-  0%,
-  100% {
-    opacity: 0;
-    transform: scale(0.3) rotate(0deg);
-  }
-  45% {
     opacity: 1;
-    transform: scale(1) rotate(45deg);
-  }
-}
-
-@keyframes gf-glow {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(240, 180, 41, 0.35);
-  }
-  50% {
-    box-shadow: 0 0 0 6px rgba(240, 180, 41, 0);
   }
 }
 
 .anim-pop {
-  animation: gf-pop-in var(--mo-base) var(--ease-bounce) both;
+  animation: gf-pop-in var(--mo-base) var(--ease-out) both;
 }
 
 .anim-slide {

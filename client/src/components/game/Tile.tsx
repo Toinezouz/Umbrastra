@@ -32,21 +32,6 @@ export function TilePoints({ points }: { points: number }): JSX.Element {
 }
 
 /**
- * The optics around a star's disc, purely decorative: the four diffraction
- * spikes a telescope draws around a bright star (shown on hover, on
- * selection, and now and then in the open sky) and the reflection on the
- * eyepiece's glass.
- */
-export function TileOptics(): JSX.Element {
-  return (
-    <>
-      <span className="tile__spikes" aria-hidden="true" />
-      <span className="tile__glass" aria-hidden="true" />
-    </>
-  );
-}
-
-/**
  * A star, face up, as seen through the eyepiece: its constellation's real
  * star figure, its number and its brightness.
  */
@@ -88,7 +73,6 @@ export function Tile({
 
   const content = (
     <>
-      <TileOptics />
       {size !== 'xs' ? (
         <Asterism color={tile.color} className="tile__asterism" size={size === 'lg' ? 22 : 15} />
       ) : null}
