@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useI18n } from '../../i18n/index.js';
 import { Icon } from '../ui/Icon.js';
 import { IconButton } from '../ui/IconButton.js';
@@ -5,6 +6,7 @@ import { Button } from '../ui/Button.js';
 import { LanguageSwitch } from '../ui/LanguageSwitch.js';
 import { BrandMark } from '../ui/BrandMark.js';
 import { ThemeSwitch } from '../ui/ThemeSwitch.js';
+import { ContrastSwitch } from '../ui/ContrastSwitch.js';
 import type { Theme } from '../../lib/theme.js';
 
 export interface GameHeaderProps {
@@ -13,6 +15,8 @@ export interface GameHeaderProps {
   onToggleSound: () => void;
   theme: Theme;
   onThemeChange: (value: Theme) => void;
+  highContrast: boolean;
+  onContrastChange: (value: boolean) => void;
   onOpenHelp: () => void;
   onOpenSheet: () => void;
   onLeave: () => void;
@@ -30,6 +34,8 @@ export function GameHeader({
   onToggleSound,
   theme,
   onThemeChange,
+  highContrast,
+  onContrastChange,
   onOpenHelp,
   onOpenSheet,
   onLeave,
@@ -39,6 +45,9 @@ export function GameHeader({
   online,
 }: GameHeaderProps): JSX.Element {
   const { t } = useI18n();
+  // On a phone the secondary tools fold into one "more" button, to leave
+  // the screen to the game. On larger screens they are simply all shown.
+  const [moreOpen, setMoreOpen] = useState(false);
 
   return (
     <header className="game-header">
@@ -69,21 +78,39 @@ export function GameHeader({
             <Icon name="chart" size={18} /> {t('header.sheet')}
           </Button>
         ) : null}
-        <LanguageSwitch compact />
-        <ThemeSwitch compact value={theme} onChange={onThemeChange} />
         <IconButton
-          label={soundEnabled ? t('header.soundOn') : t('header.soundOff')}
-          aria-pressed={soundEnabled}
-          onClick={onToggleSound}
+          className="game-header__more"
+          label={t('header.more')}
+          aria-expanded={moreOpen}
+          aria-controls="game-header-extras"
+          data-testid="tools-toggle"
+          onClick={() => {
+            setMoreOpen((open) => !open);
+          }}
         >
-          <Icon name={soundEnabled ? 'sound' : 'mute'} />
+          <Icon name={moreOpen ? 'close' : 'more'} />
         </IconButton>
-        <IconButton label={t('header.help')} onClick={onOpenHelp}>
-          <Icon name="help" />
-        </IconButton>
-        <IconButton label={t('header.quit')} onClick={onLeave} data-testid="leave-game">
-          <Icon name="leave" />
-        </IconButton>
+        <div
+          id="game-header-extras"
+          className={`game-header__extras ${moreOpen ? 'is-open' : ''}`.trim()}
+        >
+          <LanguageSwitch compact />
+          <ThemeSwitch compact value={theme} onChange={onThemeChange} />
+          <ContrastSwitch compact value={highContrast} onChange={onContrastChange} />
+          <IconButton
+            label={soundEnabled ? t('header.soundOn') : t('header.soundOff')}
+            aria-pressed={soundEnabled}
+            onClick={onToggleSound}
+          >
+            <Icon name={soundEnabled ? 'sound' : 'mute'} />
+          </IconButton>
+          <IconButton label={t('header.help')} onClick={onOpenHelp}>
+            <Icon name="help" />
+          </IconButton>
+          <IconButton label={t('header.quit')} onClick={onLeave} data-testid="leave-game">
+            <Icon name="leave" />
+          </IconButton>
+        </div>
       </div>
     </header>
   );

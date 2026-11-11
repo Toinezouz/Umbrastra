@@ -101,6 +101,20 @@ event, no translation key, no `data-testid`.
 | page `#eef2f8` / `#05080f` | `#f3f2ee` / `#0e121b` (`THEME_COLORS`, `index.html`) | warm paper, soft night |
 | new tokens | `--c-gold-tint`, `--c-gold-wash`, `--c-accent-tint`, `--c-magenta-tint`, `--btn-primary-*`, `--star-ink` | flat tints instead of gradients |
 
+### 1.9 — comfort
+
+Twelve refinements of the 1.8 look; no signature of `@umbrastra/shared`
+changes and no event.
+
+| Added | Where | Why |
+| --- | --- | --- |
+| `Preferences.highContrast`, `applyContrast()`, `ContrastSwitch`, `<html data-contrast="high">` | storage, theme, home and game header | stronger text and lines on demand |
+| keys `contrast.label`, `header.more` | the three catalogues | the two new controls |
+| `data-testid` `contrast-toggle`, `tools-toggle` | home, game header | the game header folds its secondary tools behind one button on a phone |
+| `data-step` (`reveal`, `pick`) on `.table` | `GameTable` | lights the part of the table my next move is on |
+| `.log-star` chips | `GameLog` | the star of a history line, in its colour |
+| icons `more`, `contrast` | `Icon` | the two new controls |
+
 ## 1. Data types (`@umbrastra/shared`)
 
 ```ts
@@ -380,6 +394,7 @@ function SkyChart(): JSX.Element;
 function Celebration(props: CelebrationProps): JSX.Element;
 function useFreshIds(ids: readonly string[], durationMs?: number): ReadonlySet<string>;
 function SkyBackdrop(): JSX.Element;
+function ContrastSwitch(props: ContrastSwitchProps): JSX.Element;
 function Icon(props: IconProps): JSX.Element;
 
 interface GameActions {

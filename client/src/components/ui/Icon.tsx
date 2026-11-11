@@ -22,9 +22,24 @@ export type IconName =
   | 'plug'
   | 'copy'
   | 'heart'
+  | 'more'
+  | 'contrast'
   | 'close';
 
 const PATHS: Record<IconName, JSX.Element> = {
+  more: (
+    <>
+      <circle cx="5.5" cy="12" r="1.3" fill="currentColor" />
+      <circle cx="12" cy="12" r="1.3" fill="currentColor" />
+      <circle cx="18.5" cy="12" r="1.3" fill="currentColor" />
+    </>
+  ),
+  contrast: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 3.5a8.5 8.5 0 0 1 0 17Z" fill="currentColor" />
+    </>
+  ),
   sun: (
     <>
       <circle cx="12" cy="12" r="4.2" />

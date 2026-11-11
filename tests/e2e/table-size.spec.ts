@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import {
   hasTheLead,
   makeCall,
+  openTools,
   readOpponentTiles,
   revealAnyColor,
   selectPublicTile,
@@ -105,6 +106,7 @@ test.describe('Three or four at the table', () => {
     await expect(last!.locator('.turn-indicator')).toContainText('YOUR TURN');
 
     // The last player leaves: the two others play on.
+    await openTools(last!);
     await last!.getByTestId('leave-game').click();
     await expect(lead!.locator('.player-status').filter({ hasText: seatedNames[2]! })).toContainText('Left');
     await expect(lead!.getByTestId('game-over')).toHaveCount(0);

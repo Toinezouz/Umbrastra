@@ -27,6 +27,8 @@ export interface GameTableProps {
   onToggleSound: () => void;
   theme: Theme;
   onThemeChange: (value: Theme) => void;
+  highContrast: boolean;
+  onContrastChange: (value: boolean) => void;
   onOpenHelp: () => void;
   onLeave: () => void;
 }
@@ -37,6 +39,8 @@ export function GameTable({
   onToggleSound,
   theme,
   onThemeChange,
+  highContrast,
+  onContrastChange,
   onOpenHelp,
   onLeave,
 }: GameTableProps): JSX.Element | null {
@@ -95,16 +99,21 @@ export function GameTable({
   const gameOver = phase === 'GAME_OVER';
   const canAnnounce = !me.guessUsed && !me.eliminated && !gameOver;
   const offlineRivals = rivals.filter((p) => !p.connected && !p.left);
+  // Which part of the table my next move is on, so that it can be lit.
+  const step =
+    isMyTurn && !gameOver ? (phase === 'TURN_REVEAL' ? 'reveal' : phase === 'TURN_HINT' ? 'pick' : '') : '';
   const heldNumbers = privateState.rivals.flatMap((r) => r.tiles.map((tile) => tile.number));
 
   return (
-    <div className="table" data-players={publicState.players.length}>
+    <div className="table" data-players={publicState.players.length} data-step={step}>
       <GameHeader
         roomCode={credentials.roomCode}
         soundEnabled={soundEnabled}
         onToggleSound={onToggleSound}
         theme={theme}
         onThemeChange={onThemeChange}
+        highContrast={highContrast}
+        onContrastChange={onContrastChange}
         onOpenHelp={onOpenHelp}
         onOpenSheet={() => {
           setSheetOpen(true);

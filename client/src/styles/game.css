@@ -32,11 +32,17 @@
 }
 
 .tile--xs {
-  --tile-w: clamp(28px, 3.9vw, 34px);
+  --tile-w: clamp(28px, 3vw, 40px);
   border-width: 1.5px;
 }
 .tile--sm {
-  --tile-w: clamp(42px, 5.2vw, 52px);
+  --tile-w: clamp(42px, 4.4vw, 62px);
+}
+/* Three or four at the table: the other racks sit side by side, so their
+   stars stay smaller. */
+.rivals--2 .tile--sm,
+.rivals--3 .tile--sm {
+  --tile-w: clamp(40px, 3.4vw, 50px);
 }
 .tile--lg {
   --tile-w: clamp(76px, 15vw, 96px);
@@ -44,10 +50,17 @@
 }
 
 .tile__asterism {
-  width: calc(var(--tile-w) * 0.26);
-  height: calc(var(--tile-w) * 0.26);
+  width: calc(var(--tile-w) * 0.3);
+  height: calc(var(--tile-w) * 0.3);
   color: var(--tile-face, currentColor);
-  margin-top: calc(var(--tile-w) * -0.03);
+  margin-top: calc(var(--tile-w) * -0.04);
+}
+
+/* Drawn small, the figure needs a firmer line: it is what tells the
+   constellations apart without colour. */
+.tile__asterism path {
+  stroke-width: 1.5;
+  opacity: 0.8;
 }
 
 .tile__number {
@@ -279,7 +292,12 @@
 }
 
 .rack--compact .classify-slot {
-  min-height: clamp(42px, 5.2vw, 52px);
+  min-height: clamp(42px, 4.4vw, 62px);
+}
+
+.rivals--2 .rack--compact .classify-slot,
+.rivals--3 .rack--compact .classify-slot {
+  min-height: clamp(40px, 3.4vw, 50px);
 }
 
 .classify-slot--filled {
@@ -395,10 +413,10 @@
 
 .compare-area__answer {
   font-family: var(--font-title);
-  font-size: 0.58rem;
+  font-size: 0.68rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  padding: 1px 5px;
+  letter-spacing: 0.06em;
+  padding: 1px 7px;
   border-radius: var(--r-pill);
   margin-top: -4px;
   z-index: 2;
@@ -735,6 +753,16 @@
   margin-right: var(--sp-1);
 }
 
+/* Secondary tools: all shown on a large screen, folded behind one "more"
+   button on a phone (see the 520px block below). */
+.game-header__more {
+  display: none;
+}
+
+.game-header__extras {
+  display: contents;
+}
+
 /* Whose turn it is: the one line to read first. */
 .turn-indicator {
   --turn-accent: var(--c-line);
@@ -803,6 +831,14 @@
 .turn-indicator__text span {
   font-size: var(--fs-sm);
   color: var(--c-ink-soft);
+}
+
+/* My next move: the part of the table it happens on gets a sunlight edge
+   (the constellation buttons, then the open sky). */
+.table[data-step='reveal'] .action-panel,
+.table[data-step='pick'] .pool {
+  border-color: var(--c-gold-bright);
+  box-shadow: 0 0 0 3px var(--c-gold-tint);
 }
 
 /* --- Table layout ------------------------------------------------------------------ */
@@ -977,6 +1013,28 @@
   border-radius: 0;
 }
 
+/* The star a line is about: a small chip in its constellation's colour. */
+.log-star {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.75em;
+  height: 1.5em;
+  margin: 0 1px;
+  padding: 0 0.3em;
+  border: 1.5px solid var(--tile-face);
+  border-radius: var(--r-pill);
+  background: var(--sky-face);
+  background: color-mix(in srgb, var(--tile-face) 15%, var(--sky-face));
+  color: var(--star-ink);
+  font-family: var(--font-title);
+  font-size: 0.82em;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  vertical-align: 0.05em;
+}
+
 .game-log__icon {
   flex: 0 0 auto;
   color: var(--c-ink-soft);
@@ -1020,10 +1078,24 @@
     position: static;
   }
 
+  /* On a small screen the header scrolls away and the turn banner is what
+     stays in view: whose turn it is matters more than the tools. */
+  .game-header {
+    position: relative;
+    /* Above the sticky turn banner: its "more" menu opens over it. */
+    z-index: calc(var(--z-sticky) + 1);
+  }
+
   .turn-indicator {
+    position: sticky;
+    top: 4px;
+    z-index: var(--z-sticky);
     margin: var(--sp-3) var(--sp-3) 0;
     padding: var(--sp-2) var(--sp-3);
     gap: var(--sp-3);
+    box-shadow:
+      inset 3px 0 0 var(--turn-accent),
+      0 6px 16px -8px rgba(var(--shadow-rgb), 0.5);
   }
 
   .opponent-offline {
@@ -1093,6 +1165,28 @@
 
   .game-header__tools {
     gap: 2px;
+  }
+
+  .game-header__more {
+    display: inline-flex;
+  }
+
+  .game-header__extras {
+    display: none;
+  }
+
+  .game-header__extras.is-open {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: var(--sp-2);
+    z-index: calc(var(--z-sticky) + 1);
+    display: flex;
+    gap: 2px;
+    padding: var(--sp-1);
+    border: 1px solid var(--c-rule);
+    border-radius: var(--r-md);
+    background: var(--c-paper);
+    box-shadow: var(--sh-modal);
   }
 
   .action-panel__colors {

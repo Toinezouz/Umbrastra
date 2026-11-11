@@ -1,10 +1,18 @@
 import { useState, type FormEvent } from 'react';
-import { NAME_MAX_LENGTH, NAME_MIN_LENGTH, ROOM_CODE_LENGTH, validateName } from '@umbrastra/shared';
+import {
+  COLOR_ORDER,
+  NAME_MAX_LENGTH,
+  NAME_MIN_LENGTH,
+  ROOM_CODE_LENGTH,
+  validateName,
+} from '@umbrastra/shared';
 import { useI18n } from '../../i18n/index.js';
 import { Button } from '../../components/ui/Button.js';
 import { Field } from '../../components/ui/Field.js';
 import { LanguageSwitch } from '../../components/ui/LanguageSwitch.js';
 import { ThemeSwitch } from '../../components/ui/ThemeSwitch.js';
+import { ContrastSwitch } from '../../components/ui/ContrastSwitch.js';
+import { Asterism } from '../../components/game/Asterism.js';
 import { BrandMark } from '../../components/ui/BrandMark.js';
 import { SkyChart } from '../../components/ui/SkyChart.js';
 import type { Theme } from '../../lib/theme.js';
@@ -18,6 +26,8 @@ export interface HomeProps {
   onOpenHelp: () => void;
   theme: Theme;
   onThemeChange: (value: Theme) => void;
+  highContrast: boolean;
+  onContrastChange: (value: boolean) => void;
 }
 
 type Mode = 'menu' | 'create' | 'join';
@@ -30,9 +40,11 @@ export function Home({
   onOpenHelp,
   theme,
   onThemeChange,
+  highContrast,
+  onContrastChange,
 }: HomeProps): JSX.Element {
   const { actions, status } = useGame();
-  const { t } = useI18n();
+  const { t, color: colorName } = useI18n();
   const [mode, setMode] = useState<Mode>(inviteCode ? 'join' : 'menu');
   const [name, setName] = useState(initialName);
   const [code, setCode] = useState(inviteCode ?? '');
@@ -77,6 +89,15 @@ export function Home({
         <p className="home__tagline">{t('home.tagline')}</p>
         <p className="home__sub">{t('home.pitch')}</p>
         <p className="home__players">{t('home.players')}</p>
+        {/* The five constellations of the game, by name and by colour. */}
+        <ul className="home__constellations">
+          {COLOR_ORDER.map((color) => (
+            <li key={color} data-color={color}>
+              <Asterism color={color} size={30} />
+              <span>{colorName(color)}</span>
+            </li>
+          ))}
+        </ul>
       </div>
 
       <div className="home__card panel">
@@ -183,6 +204,7 @@ export function Home({
       <div className="home__prefs">
         <LanguageSwitch />
         <ThemeSwitch value={theme} onChange={onThemeChange} />
+        <ContrastSwitch value={highContrast} onChange={onContrastChange} />
       </div>
     </div>
   );

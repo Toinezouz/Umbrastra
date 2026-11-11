@@ -112,6 +112,8 @@ export const en = {
   'theme.light': 'Light',
   'theme.dark': 'Dark',
   'theme.current': 'Theme: {mode}. Click to change.',
+  'contrast.label': 'High contrast',
+  'header.more': 'More options',
 
   // --- Opening draw -------------------------------------------------------
   'roulette.question': 'Who goes first?',

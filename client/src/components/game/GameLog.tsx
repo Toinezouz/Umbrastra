@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import type { LogEntry, LogKind } from '@umbrastra/shared';
+import { colorForNumber, isValidTileNumber, type LogEntry, type LogKind } from '@umbrastra/shared';
 import { useI18n, type MessageKey } from '../../i18n/index.js';
 import { Icon, type IconName } from '../ui/Icon.js';
 
@@ -13,6 +13,9 @@ const ICONS: Record<LogKind, IconName> = {
   guess: 'crown',
   connection: 'plug',
 };
+
+/** Marks the star number inside a translated sentence (never displayed). */
+const MARK = '\u0001';
 
 export interface GameLogProps {
   entries: LogEntry[];
@@ -48,8 +51,24 @@ export function GameLog({ entries, compact = true }: GameLogProps): JSX.Element 
           ? 'log.compare-answered.yes'
           : 'log.compare-answered.no'
         : (`log.${entry.code}` as MessageKey);
+    // The star a line is about is shown as a small coloured chip: marked
+    // here, cut out below, so the sentence stays the translator's.
+    if (typeof params['tile'] === 'number' && isValidTileNumber(params['tile'])) {
+      params['tile'] = `${MARK}${String(params['tile'])}${MARK}`;
+    }
     return t(key, params as Record<string, string | number>);
   };
+
+  const withChips = (text: string): (string | JSX.Element)[] =>
+    text.split(MARK).map((part, index) =>
+      index % 2 === 1 ? (
+        <span className="log-star" data-color={colorForNumber(Number(part))} key={index}>
+          {part}
+        </span>
+      ) : (
+        part
+      ),
+    );
 
   return (
     <ol
@@ -65,7 +84,7 @@ export function GameLog({ entries, compact = true }: GameLogProps): JSX.Element 
           <span className="game-log__icon" aria-hidden="true">
             <Icon name={ICONS[entry.kind]} size={16} />
           </span>
-          <span>{render(entry)}</span>
+          <span>{withChips(render(entry))}</span>
         </li>
       ))}
     </ol>

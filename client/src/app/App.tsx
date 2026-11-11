@@ -13,7 +13,7 @@ import { SkyBackdrop } from '../components/ui/SkyBackdrop.js';
 import { loadPreferences, savePreferences } from '../lib/storage.js';
 import { clearInviteFromUrl } from '../lib/invite.js';
 import { setSoundEnabled } from '../lib/audio.js';
-import { applyTheme, type Theme } from '../lib/theme.js';
+import { applyContrast, applyTheme, type Theme } from '../lib/theme.js';
 
 /**
  * Screen routing: home -> lobby -> table.
@@ -66,6 +66,14 @@ export function App({ inviteCode = null }: AppProps): JSX.Element {
 
   const onboardingOpen = onboardingWanted && startingDraw === null && !mustAnswer;
 
+  useEffect(() => {
+    applyContrast(prefs.highContrast);
+  }, [prefs.highContrast]);
+
+  const changeContrast = useCallback((next: boolean) => {
+    setPrefs(savePreferences({ highContrast: next }));
+  }, []);
+
   const toggleSound = useCallback(() => {
     setPrefs((current) => savePreferences({ soundEnabled: !current.soundEnabled }));
   }, []);
@@ -109,6 +117,8 @@ export function App({ inviteCode = null }: AppProps): JSX.Element {
           onToggleSound={toggleSound}
           theme={prefs.theme}
           onThemeChange={changeTheme}
+          highContrast={prefs.highContrast}
+          onContrastChange={changeContrast}
           onOpenHelp={() => {
             setHelpOpen(true);
           }}
@@ -132,6 +142,8 @@ export function App({ inviteCode = null }: AppProps): JSX.Element {
           }}
           theme={prefs.theme}
           onThemeChange={changeTheme}
+          highContrast={prefs.highContrast}
+          onContrastChange={changeContrast}
           onOpenHelp={() => {
             setHelpOpen(true);
           }}

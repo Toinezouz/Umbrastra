@@ -35,6 +35,21 @@ export const THEME_COLORS: Record<Theme, string> = {
  * Applies the theme to the document and updates `theme-color` (the colour
  * of the browser bar on phones).
  */
+/**
+ * High contrast: stronger text and lines, in either theme. A separate
+ * setting, on `<html data-contrast="high">`.
+ */
+export function applyContrast(high: boolean): void {
+  if (typeof document === 'undefined') {
+    return;
+  }
+  if (high) {
+    document.documentElement.dataset['contrast'] = 'high';
+  } else {
+    delete document.documentElement.dataset['contrast'];
+  }
+}
+
 export function applyTheme(theme: Theme): void {
   if (typeof document === 'undefined') {
     return;

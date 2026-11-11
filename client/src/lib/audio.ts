@@ -34,51 +34,56 @@ function rouletteTicks(): Note[] {
   for (let i = 0; i < 26; i += 1) {
     const progress = i / 25;
     notes.push({
-      frequency: 920 - 240 * progress,
+      frequency: 620 - 160 * progress,
       at,
-      duration: 0.035,
-      type: 'square',
-      gain: 0.07,
+      duration: 0.05,
+      type: 'sine',
+      gain: 0.04,
     });
     at += 0.04 + 0.16 * progress * progress;
   }
   return notes;
 }
 
+/*
+ * A soft set, to match the quiet look: sine and triangle waves only, low
+ * volume, notes of one pentatonic scale (C D E G A) so that nothing ever
+ * sounds wrong next to anything else.
+ */
 const SOUNDS: Record<SoundName, Note[]> = {
-  click: [{ frequency: 660, at: 0, duration: 0.06, type: 'triangle', gain: 0.12 }],
+  click: [{ frequency: 523, at: 0, duration: 0.07, type: 'sine', gain: 0.05 }],
   reveal: [
-    { frequency: 520, at: 0, duration: 0.09, type: 'triangle' },
-    { frequency: 780, at: 0.07, duration: 0.12, type: 'triangle' },
+    { frequency: 392, at: 0, duration: 0.14, type: 'sine' },
+    { frequency: 587, at: 0.09, duration: 0.22, type: 'sine' },
   ],
   place: [
-    { frequency: 320, at: 0, duration: 0.07, type: 'square', gain: 0.1 },
-    { frequency: 220, at: 0.05, duration: 0.09, type: 'sine' },
+    { frequency: 294, at: 0, duration: 0.12, type: 'triangle' },
+    { frequency: 220, at: 0.07, duration: 0.2, type: 'sine' },
   ],
   yes: [
-    { frequency: 660, at: 0, duration: 0.1 },
-    { frequency: 990, at: 0.09, duration: 0.16 },
+    { frequency: 523, at: 0, duration: 0.14 },
+    { frequency: 659, at: 0.1, duration: 0.26 },
   ],
   no: [
-    { frequency: 330, at: 0, duration: 0.12 },
-    { frequency: 220, at: 0.1, duration: 0.2 },
+    { frequency: 330, at: 0, duration: 0.16 },
+    { frequency: 262, at: 0.12, duration: 0.28 },
   ],
   turn: [
-    { frequency: 440, at: 0, duration: 0.1 },
-    { frequency: 587, at: 0.09, duration: 0.12 },
+    { frequency: 392, at: 0, duration: 0.14 },
+    { frequency: 523, at: 0.11, duration: 0.24 },
   ],
   spin: rouletteTicks(),
-  error: [{ frequency: 180, at: 0, duration: 0.22, type: 'sawtooth', gain: 0.1 }],
+  error: [{ frequency: 196, at: 0, duration: 0.26, type: 'triangle', gain: 0.06 }],
   victory: [
-    { frequency: 523, at: 0, duration: 0.14 },
-    { frequency: 659, at: 0.13, duration: 0.14 },
-    { frequency: 784, at: 0.26, duration: 0.16 },
-    { frequency: 1046, at: 0.42, duration: 0.3 },
+    { frequency: 523, at: 0, duration: 0.22 },
+    { frequency: 659, at: 0.16, duration: 0.22 },
+    { frequency: 784, at: 0.32, duration: 0.26 },
+    { frequency: 1046, at: 0.5, duration: 0.6, gain: 0.06 },
   ],
   defeat: [
-    { frequency: 392, at: 0, duration: 0.18 },
-    { frequency: 311, at: 0.17, duration: 0.2 },
-    { frequency: 233, at: 0.36, duration: 0.34 },
+    { frequency: 392, at: 0, duration: 0.24 },
+    { frequency: 330, at: 0.2, duration: 0.28 },
+    { frequency: 262, at: 0.42, duration: 0.5 },
   ],
 };
 
@@ -131,9 +136,10 @@ export function playSound(name: SoundName): void {
     const gain = ctx.createGain();
     osc.type = note.type ?? 'sine';
     osc.frequency.value = note.frequency;
-    const peak = note.gain ?? 0.14;
+    const peak = note.gain ?? 0.07;
     gain.gain.setValueAtTime(0.0001, now + note.at);
-    gain.gain.exponentialRampToValueAtTime(peak, now + note.at + 0.012);
+    // A gentle attack: no click at the start of a note.
+    gain.gain.exponentialRampToValueAtTime(peak, now + note.at + 0.03);
     gain.gain.exponentialRampToValueAtTime(0.0001, now + note.at + note.duration);
     osc.connect(gain).connect(ctx.destination);
     osc.start(now + note.at);

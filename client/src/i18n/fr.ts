@@ -109,6 +109,8 @@ export const fr: Messages = {
   'theme.light': 'Clair',
   'theme.dark': 'Sombre',
   'theme.current': 'Thème : {mode}. Cliquer pour changer.',
+  'contrast.label': 'Contraste élevé',
+  'header.more': 'Plus d’options',
 
   // --- Tirage au sort ------------------------------------------------------
   'roulette.question': 'Qui commence ?',

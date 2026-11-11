@@ -8,13 +8,17 @@ export interface CelebrationProps {
 }
 
 /**
- * Where the five stars light up, as percentages of the stage: an arc that
- * crowns the eclipse, like a constellation rising above the horizon.
+ * Where the five stars light up, as percentages of the stage: the zigzag of
+ * Cassiopeia, the one constellation of the game drawn with exactly five
+ * stars, crowning the eclipse.
  */
-const ARC = [200, 238, 270, 302, 340].map((degrees) => {
-  const radians = (degrees * Math.PI) / 180;
-  return { x: 50 + 38 * Math.cos(radians), y: 60 + 46 * Math.sin(radians) };
-});
+const ARC = [
+  { x: 12, y: 15 },
+  { x: 31, y: 35 },
+  { x: 50, y: 13 },
+  { x: 69, y: 35 },
+  { x: 88, y: 15 },
+];
 
 /** Shooting stars: start point (%), delay (s) and length, fixed for a calm rhythm. */
 const METEORS = [

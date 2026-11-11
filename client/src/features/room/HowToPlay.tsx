@@ -59,6 +59,28 @@ export function HowToPlay({ open, onClose }: HowToPlayProps): JSX.Element | null
             ))}
           </div>
         );
+      case 'place':
+        return (
+          <div className="howto__row howto__row--example">
+            <TileBack color="green" position={0} size="sm" />
+            <span className="onboarding__slot">
+              <Tile tile={getTileByNumber(22)} size="xs" />
+            </span>
+            <TileBack color="pink" position={1} size="sm" />
+            <TileBack color="blue" position={2} size="sm" />
+          </div>
+        );
+      case 'gauge':
+        return (
+          <div className="howto__row howto__row--example">
+            <Tile tile={getTileByNumber(27)} size="sm" />
+            <span className="howto__link" aria-hidden="true">
+              <Icon name="gauge" size={20} />
+            </span>
+            <TileBack color="red" position={3} size="sm" />
+            <span className="compare-area__answer is-yes howto__answer">{t('compare.yes')}</span>
+          </div>
+        );
       default:
         return null;
     }

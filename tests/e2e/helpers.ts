@@ -227,3 +227,15 @@ export async function makeCall(page: Page, numbers: readonly number[]): Promise<
   await page.getByTestId('submit-guess').click();
   await page.getByTestId('confirm-guess').click();
 }
+
+/**
+ * On a phone the secondary tools of the game header (language, theme,
+ * contrast, sound, help, leave) fold behind one "more" button: opens it when
+ * it is there and closed. Does nothing on a large screen.
+ */
+export async function openTools(page: Page): Promise<void> {
+  const toggle = page.getByTestId('tools-toggle');
+  if ((await toggle.isVisible()) && (await toggle.getAttribute('aria-expanded')) !== 'true') {
+    await toggle.click();
+  }
+}

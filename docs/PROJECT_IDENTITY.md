@@ -191,6 +191,24 @@ tiring to look at. The rule since 1.8:
 `tests/unit/design.dom.test.tsx` enforces the first point on the
 stylesheets.
 
+## Comfort
+
+- **Stars grow with the screen** (up to 76 px on a large one), and the
+  constellation figures are drawn with a firmer line.
+- **On a phone**, the secondary tools of the game header fold behind one
+  "more" button, and the turn banner stays in view while scrolling.
+- **My next move is lit**: a sunlight edge around the constellation buttons
+  when I must reveal, around the open sky when I must pick a star.
+- **The history** shows the star of each line as a small chip in its
+  constellation's colour.
+- **High contrast** is a setting of its own, in either theme: text closer to
+  black or white, stronger secondary text and lines.
+- **The home screen** names the five constellations under the pitch, each
+  with its figure and colour; **the rules** show a worked example of PLACE
+  and of GAUGE.
+- **Sounds** are soft: sine and triangle waves, low volume, one pentatonic
+  scale.
+
 ## Moments
 
 - **A star is placed** — it settles into its gap from just above, and the
@@ -199,8 +217,9 @@ stylesheets.
   animated: opening or reloading the page replays nothing.
 - **Someone wins** — the end screen opens on a total eclipse. The corona
   grows, the diamond ring appears in a soft wash of light, then the winner's
-  five stars light up one by one around the Moon and join into their
-  constellation while a few shooting stars cross the sky, before
+  five stars light up one by one above the Moon, on the zigzag of
+  Cassiopeia (the one constellation of the game with exactly five stars),
+  and join into a constellation while a few shooting stars cross the sky, before
   **CONSTELLATION!** appears and the results rise. When nobody wins, the
   eclipse stays alone: *the sky kept its secrets*.
 

@@ -90,6 +90,8 @@ export interface Preferences {
   language: string;
   /** Theme chosen by the person: 'light' or 'dark'. */
   theme: Theme;
+  /** Stronger text and lines, for dim screens or tired eyes. */
+  highContrast: boolean;
 }
 
 const DEFAULT_PREFS: Preferences = {
@@ -98,6 +100,7 @@ const DEFAULT_PREFS: Preferences = {
   onboardingDone: false,
   language: '',
   theme: DEFAULT_THEME,
+  highContrast: false,
 };
 
 export function loadPreferences(): Preferences {
@@ -108,6 +111,7 @@ export function loadPreferences(): Preferences {
   if (!isTheme(prefs.theme)) {
     prefs.theme = DEFAULT_THEME;
   }
+  prefs.highContrast = prefs.highContrast === true;
   return prefs;
 }
 

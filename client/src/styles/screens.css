@@ -48,6 +48,32 @@
   color: var(--c-ink-soft);
 }
 
+.home__constellations {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-2) var(--sp-5);
+  margin: var(--sp-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home__constellations li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-title);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.04em;
+  color: var(--c-ink-soft);
+}
+
+.home__constellations .asterism {
+  color: var(--tile-face);
+  color: color-mix(in srgb, var(--tile-face) 82%, var(--c-ink));
+}
+
 .home__card {
   width: min(420px, 100%);
   padding: var(--sp-5);
@@ -62,6 +88,7 @@
 /* Arriving from an invite on a phone: the form comes first. */
 @media (max-width: 600px) {
   .home--invited .home__sub,
+  .home--invited .home__constellations,
   .home--invited .home__players {
     display: none;
   }
@@ -421,6 +448,26 @@
   gap: var(--sp-3);
   flex-wrap: wrap;
   padding: var(--sp-2) 0;
+}
+
+/* A worked example under PLACE and GAUGE. */
+.howto__row--example {
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--c-wash);
+}
+
+.howto__link {
+  display: inline-flex;
+  color: var(--c-ink-soft);
+}
+
+.howto__answer {
+  margin-top: 0;
+  font-size: var(--fs-xs);
 }
 
 .howto__constellation {

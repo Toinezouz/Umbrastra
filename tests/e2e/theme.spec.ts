@@ -1,5 +1,5 @@
 import { expect, test, type Browser, type Page } from '@playwright/test';
-import { startGame } from './helpers.js';
+import { openTools, startGame } from './helpers.js';
 
 // Every test starts from a clean browser.
 test.afterEach(async ({ browser }) => {
@@ -77,6 +77,7 @@ test.describe('Light and dark themes', () => {
     const { first, second } = await startGame(browser, ['Alice', 'Bob']);
 
     // In the game header, one button switches to the other theme.
+    await openTools(first);
     const toggle = first.getByTestId('theme-toggle');
     await expect(toggle).toHaveAttribute('data-theme-value', 'dark');
     await toggle.click();

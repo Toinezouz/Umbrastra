@@ -1,4 +1,5 @@
 import { expect, test, type Browser, type Page } from '@playwright/test';
+import { openTools } from './helpers.js';
 
 // Every test starts from a clean browser.
 test.afterEach(async ({ browser }) => {
@@ -190,6 +191,7 @@ test.describe('Translations', () => {
     await expect(spanish.locator('.game-log')).toContainText(TEXT.es.logDraw(activeName));
 
     // Switching language mid-game, from the header.
+    await openTools(french);
     await french.getByTestId('lang-select').selectOption('en');
     await expect(french.locator('.pool__head')).toContainText('The open sky');
     await expect(french.locator('html')).toHaveAttribute('lang', 'en');
